@@ -271,30 +271,8 @@ out_vol=in_vol;
 idx=round(permute(sub2ind(size(out_vol),cX,cY,cZ),[3,1,2]));
 out_vol(idx)=1;
 end
-function [predirs,foldernames]=get_predirs(dirs_in,layernumber)
-predirs=dirs_in;
-predirs_temp=predirs;
-for i=0:layernumber
-    if i==layernumber
-        foldernames_temp=cell(size(dirs_in));
-    end
-    for j=1:numel(predirs)
-        [predir,foldername,~]=fileparts(predirs_temp{j});
-        if i==layernumber
-            foldernames_temp{j}=foldername;
-        else
-            predirs_temp{j}=predir;
-        end
-    end    
-end
-if layernumber>0
-    predirs=predirs_temp;
-    
-end
-foldernames=foldernames_temp;
-end
 
-function [dirs_out]=get_dirs(folder,dirPattern,commonstr,dirs_in)
+
 % get_dirs - Get the directories for required files in one folder and its subfolders
 %--------------------------------------------------------------------------
 %   get_dirs(folder,dirPattern,commonstr,dirs_in) is a recursive function,
