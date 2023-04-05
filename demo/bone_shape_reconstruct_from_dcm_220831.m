@@ -30,7 +30,6 @@ sec_bias=180;
 min_area1=100;
 
 remove_small_vol=1;
-% remove_small_vol=0;
 remove_vol_rank=2;
 
 sigma=4;
@@ -126,8 +125,8 @@ end
 
 %% plot
 figure(pth_id);
-vol_shape(:,:,1)=0;
-vol_shape(:,:,end)=0;
+% vol_shape(:,:,1)=0;
+% vol_shape(:,:,end)=0;
 vs=volshow(double(vol_shape));
 set(vs,'Renderer', 'Isosurface');
 vs.BackgroundColor='w';
