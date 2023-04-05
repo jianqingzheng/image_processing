@@ -4,7 +4,7 @@ clear
 vox_folder=fullfile('data');
 subfolder_names=["20220831 irradiation BM chimera C57 HTP"];
 
-% set parameters
+%% set parameters
 % rot_axis =   [1,0,0;     ];
 rotx_axis =   [1,0,0     ];
 roty_axis =   [0,1,0     ];
@@ -21,14 +21,8 @@ intensity_bias=[0,0,-100,0,400,100,0,0];
 thresh_bone0=800+4000+intensity_bias(subfolder_id);
 thresh_bone1=1900+4000+intensity_bias(subfolder_id);
 thresh_bone2=800+4000+intensity_bias(subfolder_id);
-% sec_bias=245;
 sec_bias=180;
-% sec_bias=250;
-% sec_bias=80;
-
-% min_area1=500;
 min_area1=100;
-
 remove_small_vol=1;
 remove_vol_rank=2;
 
@@ -40,14 +34,9 @@ dilate_iter=12;
 % dilate_iter=20;
 dilate_sz=4;
 % dilate_sz=3;
+ang=[0,0];
 
-% subfolder_name=subfolder_names(vol_id);
-% axis=rot_axis(vol_id,:);
-ang=angs(vol_id,:);
-% sec_id=[1:sec_locs(vol_id,1),sec_locs(vol_id,1):end];
-
-% dcmfiles = dir();
-
+%% for loop 
 dirinfo = dir(fullfile(vox_folder,subfolder_names(subfolder_id)));
 dirinfo= dirinfo(3:end);
 % dcmfiles = cell(length(dirinfo),1);
@@ -64,13 +53,13 @@ for pth_id =1:1:numel(dcmfiles)
     close all;
 [img,spatial,dim] = dicomreadVolume(dcmfiles{pth_id});
 img=img(:,:,:);
-if pth_id>size(sec_locs,1)
-    ang=angs(end,:);
-    sec_loc=sec_locs(end,:);
-else
-    sec_loc=sec_locs(pth_id,:);
-    ang=angs(pth_id,:);
-end
+% if pth_id>size(sec_locs,1)
+%     ang=angs(end,:);
+%     sec_loc=sec_locs(end,:);
+% else
+%     sec_loc=sec_locs(pth_id,:);
+%     ang=angs(pth_id,:);
+% end
 
 img=imrotate3(img,ang(1),rotx_axis);
 img=imrotate3(img,ang(2),roty_axis);
@@ -111,7 +100,8 @@ if filter_flag %%%%%%
     vol_shape2 = serial_dilate_erode_vol(vol_shape2,kron([dilate_sz],ones(1,dilate_iter)),1,0,'cube');
     vol_shape2=imgaussfilt3(double(vol_shape2),sigma_vol)>0.1;
     vol_shape2 = serial_dilate_erode_vol(vol_shape2,kron([-dilate_sz],ones(1,dilate_iter)),1,min_area1*200,'cube');
-end%%%%%%%%%%
+end
+
 %% select volume
 % calculate the ratio of cancellous bone divided by the volume inside the
 % cortical bone.
@@ -125,45 +115,22 @@ end
 
 %% plot
 figure(pth_id);
-% vol_shape(:,:,1)=0;
+vol_shape(:,:,1)=0;
 % vol_shape(:,:,end)=0;
 vs=volshow(double(vol_shape));
 set(vs,'Renderer', 'Isosurface');
 vs.BackgroundColor='w';
 vs.IsosurfaceColor=[1.,1.,1.];
 vs.Isovalue=.5;
-% vs.Lighting=1;
-% vs.CameraViewAngle
-% vs.CameraPosition
-% vs.CameraUpVector
-% vs.CameraTarget
 vs.CameraTarget=[-0.1,-0.1,0];
 vs.CameraViewAngle=10;
-% vs.CameraPosition = [-0.3509   -1.2034    3.6760];
-% vs.CameraUpVector= [0.0850    0.2791    0.9565];
-
 vs.CameraPosition = [-1.5098    0.4677    3.5471];
 vs.CameraUpVector= [-0.1328   -0.0914    0.9869];
 
-% vs.CameraPosition = [0.5,0.5,.5];
-% set(vs, 'CameraPosition', [0.,0.,5.]);
-
 print(dcmfiles(pth_id)+'_view0'+'.png', '-dpng', '-r900');
-% print(dcmfiles(pth_id)+'_view0'+'.tif', '-depsc','-tiff', '-r900');
-% I = getframe(gcf); 
-% imwrite(I.cdata, dcmfiles{pth_id}+'_view0'+'.tif', 'TIFF','Resolution',900);
-% [indI,cm] = rgb2ind(I.cdata,256);
-% imwrite(indI, cm, dcmfiles(pth_id)+'_view0'+'.tif', 'tif','Resolution',30000);
-% volshow(img.*uint16(vol_shape),"Colormap",colormap,"Alphamap",alphamap,"Parent",ViewPnl,'BackgroundColor',[0 0.4470 0.7410]);
-% volshow(img.*uint16(vol_shape0.*~vol_shape1),"Colormap",colormap,"Alphamap",alphamap,"Parent",ViewPnl,'BackgroundColor',[0 0.4470 0.7410]);
-% volshow(img.*uint16(vol_shape0.*vol_shape1),"Colormap",colormap,"Alphamap",alphamap,"Parent",ViewPnl,'BackgroundColor',[0 0.4470 0.7410]);
 end
-% volshow(vol_shape);
-% lighting none
-% colormap copper
-% niftiwrite(int8(vol_shape),[vox_folder,subfolder_name,'_vol_shape.nii']);
-%%
 
+%% function
 function [out_vol]=fill_slide_centroid(in_vol)
 vol_sum3=sum(sum(in_vol,2),1);
 [Y,X,Z]=meshgrid(1:size(in_vol,2),1:size(in_vol,1),1:size(in_vol,3));
