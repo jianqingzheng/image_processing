@@ -30,6 +30,7 @@ Relative Paper list:
 
 # For the citation
 The usage of the bone reconstruction script should cite:
+```bibtex
 @article {Leng2025.05.02.651799,
 	author = {Leng, Houfu and jiang, jiahao and Gassner, Katja and Midha, Swati and Justo-Mendez, Raquel and Zheng, Jianqing and Hall, Timothy and Luo, Lin and West, Suzanne D and Vincent, Tonia L. and Wann, Angus and Patel, Kashyap A and Poulton, Joanna and O{\textquoteright}Callaghan, Chris A. and Lechuga-Vieco, Ana Victoria and Simon, Anna Katharina},
 	title = {Mitochondrial heterogeneity disrupts osteoclast differentiation and bone resorption by impairing respiratory complex I},
@@ -41,3 +42,4 @@ The usage of the bone reconstruction script should cite:
 	eprint = {https://www.biorxiv.org/content/early/2025/05/02/2025.05.02.651799.full.pdf},
 	journal = {bioRxiv}
 }
+```
