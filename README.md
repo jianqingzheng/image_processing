@@ -3,7 +3,18 @@
 This repo provides the implementation of several image processing techniques implemented via matlab.
 
 Relative Paper list:
-
+<table>
+  <tr>
+    <td>Technique name</td>
+    <td>Script(s)</td>    
+    <td>Paper id</td>
+  </tr>
+  <tr>
+    <td>Bone shape reconstruction</td>
+    <td><code>image_processing/demo/bone_shape_reconstruct_from_dcm.m</code></td>    
+    <td><code>Leng2025.05.02.651799</code></td>
+  </tr>
+</table>
 
 # Demos
 
