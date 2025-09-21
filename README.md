@@ -1,5 +1,4 @@
-# Image_processing toolbox (not completed)
-
+# Image_processing toolbox 
 This repo provides the implementation of several image processing techniques implemented via matlab.
 
 Relative Paper list:
